@@ -9,15 +9,27 @@ library( leaflet )
 
 code.violations <- read.csv("https://raw.githubusercontent.com/subartle/orangespot/master/data/code%20violations.csv")
 
+code.violations <- code.violations[ !( is.na(code.violations$lon) | is.na(code.violations$lat)) , ]
+
+
+
 parcels <- read.csv( "https://raw.githubusercontent.com/hectorlca/Code-Violations/master/data/parcels.csv" )
 
+
 dat <- merge( code.violations, parcels, by.x="Identifier", by.y="SBL", all.x=T )
+
+
+
+
+
+
 
 
 dat <- code.violations
 
 
 
+# dropping NAs from full code violation set
 
 cv <- code.violations[ !( is.na(code.violations$lon) | is.na(code.violations$lat)) , ]
 
@@ -51,9 +63,9 @@ syr.map
 
 # highlight bed bugs
 
-col.vec <- ifelse( cv$Complaint.Type == "Bed Bugs", "orange", NA )
+col.vec <- ifelse( dat$Complaint.Type == "Bed Bugs", "orange", NA )
 
-addCircles( syr.map, lng = cv$lon, lat = cv$lat, col=col.vec )
+addCircles( syr.map, lng = dat$lon, lat = dat$lat, col=col.vec )
 
 
 
@@ -68,21 +80,17 @@ addCircles( syr.map, lng = lat.lon$lon, lat = lat.lon$lat )
 
 
 
-# crimes <- read.csv( "https://raw.githubusercontent.com/lecy/hedonic-prices/master/Data/lat.long.csv" )
-#
-# addCircles( syr.map, lng = crimes$lon, lat = crimes$lat )
+
+
+# SUBSET BY DATE
 
 
 
+start.date <- "2014-01-01"
 
+end.date <- "2015-01-01"
 
-# addCircles( l, lng = lon, lat = lat, radius = 10, layerId = NULL, group = NULL,
-# stroke = TRUE, color = "#03F", weight = 5, opacity = 0.5, fill = TRUE,
-# fillColor = color, fillOpacity = 0.2, dashArray = NULL, popup = NULL,
-# options = pathOptions(), data = getMapData(map))
-
-
-
+# subset
 
 
 
